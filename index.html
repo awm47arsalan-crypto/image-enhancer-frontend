@@ -14,14 +14,32 @@ body {
 }
 
 .container {
-  max-width: 900px;
+  max-width: 1000px;
   margin: auto;
   padding: 30px;
 }
 
 h1 {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
+  font-size: 2.8rem;
+  margin-bottom: 5px;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 10px #6366f1; }
+  to { text-shadow: 0 0 25px #8b5cf6; }
+}
+
+.tagline {
+  font-size: 1.2rem;
+  color: #cbd5f5;
+  opacity: 0;
+  animation: fadeIn 1.5s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .upload-box {
@@ -29,7 +47,13 @@ h1 {
   padding: 30px;
   border-radius: 15px;
   cursor: pointer;
-  margin-bottom: 20px;
+  margin: 25px 0;
+  transition: 0.3s;
+}
+
+.upload-box:hover {
+  background: rgba(99,102,241,0.1);
+  transform: scale(1.02);
 }
 
 input {
@@ -37,7 +61,7 @@ input {
 }
 
 .controls {
-  margin: 15px 0;
+  margin: 10px 0;
 }
 
 select, button {
@@ -51,6 +75,11 @@ button {
   background: #6366f1;
   color: white;
   cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: scale(1.05);
 }
 
 .preview {
@@ -66,6 +95,11 @@ button {
   padding: 15px;
   border-radius: 12px;
   flex: 1;
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
 }
 
 img {
@@ -80,7 +114,7 @@ img {
 
 .download-btn {
   display: none;
-  margin-top: 15px;
+  margin-top: 20px;
   background: #22c55e;
 }
 </style>
@@ -91,7 +125,7 @@ img {
 <div class="container">
 
 <h1>🔥 AI Image Enhancer</h1>
-<p>Make your photos look professional in one click</p>
+<p class="tagline">Transform your photos into stunning, professional edits instantly ✨</p>
 
 <label class="upload-box">
   Click to upload image
@@ -109,7 +143,7 @@ img {
   <button onclick="upload()">Make it Pro</button>
 </div>
 
-<div class="loader" id="loader">⏳ Processing...</div>
+<div class="loader" id="loader">⏳ Enhancing your image...</div>
 
 <div class="preview">
   <div class="card">
@@ -123,7 +157,7 @@ img {
   </div>
 </div>
 
-<button class="download-btn" id="downloadBtn">Download Image</button>
+<button class="download-btn" id="downloadBtn">⬇ Download Image</button>
 
 </div>
 
