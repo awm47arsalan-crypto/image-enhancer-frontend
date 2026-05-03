@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI Image Enhancer</title>
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      background: #0f172a;
+      color: white;
+      padding: 40px;
+    }
+    input, select, button {
+      margin: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+    }
+    button {
+      background: #6366f1;
+      color: white;
+      cursor: pointer;
+    }
+    img {
+      margin-top: 20px;
+      max-width: 300px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>🔥 AI Image Enhancer</h1>
+
+<input type="file" id="imageInput"><br>
+
+<select id="style">
+  <option>Normal</option>
+  <option>Cinematic</option>
+  <option>Sharp Pro</option>
+  <option>Warm</option>
+</select><br>
+
+<button onclick="upload()">Make it Pro</button>
+
+<br>
+<img id="output">
+
+<script>
+async function upload() {
+  const file = document.getElementById("imageInput").files[0];
+  const style = document.getElementById("style").value;
+
+  let formData = new FormData();
+  formData.append("image", file);
+  formData.append("style", style);
+
+  const response = await fetch("https://image-enhancer-agml.onrender.com/enhance", {
+    method: "POST",
+    body: formData
+  });
+
+  const blob = await response.blob();
+  document.getElementById("output").src = URL.createObjectURL(blob);
+}
+</script>
+
+</body>
+</html>
