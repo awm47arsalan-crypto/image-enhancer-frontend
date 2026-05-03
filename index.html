@@ -7,104 +7,134 @@
 
 <style>
 body {
-  font-family: Arial, sans-serif;
-  background: #0f172a;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
   color: white;
   text-align: center;
   padding: 30px;
 }
 
-.container {
-  max-width: 900px;
-  margin: auto;
-}
-
 h1 {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
+  font-size: 2.8rem;
+  animation: glow 2s infinite alternate;
 }
 
-input, select, button {
-  margin: 10px;
-  padding: 10px;
-  border-radius: 8px;
-  border: none;
+@keyframes glow {
+  from { text-shadow: 0 0 10px #22c55e; }
+  to { text-shadow: 0 0 25px #4ade80; }
+}
+
+.upload-box {
+  border: 2px dashed #4ade80;
+  padding: 20px;
+  margin: 20px auto;
+  width: 300px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.upload-box:hover {
+  background: rgba(74, 222, 128, 0.1);
 }
 
 button {
   background: #22c55e;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
   color: white;
   cursor: pointer;
+  transition: 0.3s;
 }
 
 button:hover {
+  transform: scale(1.05);
   background: #16a34a;
 }
 
 .images {
   display: flex;
   justify-content: space-around;
-  margin-top: 20px;
+  margin-top: 30px;
+  gap: 20px;
+}
+
+.card {
+  background: rgba(255,255,255,0.05);
+  padding: 15px;
+  border-radius: 15px;
+  width: 40%;
+  backdrop-filter: blur(10px);
 }
 
 img {
-  max-width: 40%;
+  max-width: 100%;
   border-radius: 10px;
-  border: 2px solid #333;
+  margin-top: 10px;
 }
 
 #loader {
   display: none;
   margin-top: 15px;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.5; }
+  100% { opacity: 1; }
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
-  <h1>AI Image Enhancer</h1>
-  <p>Make your photos look professional instantly ✨</p>
+<h1>🔥 AI Image Enhancer</h1>
+<p>Transform your photos into stunning edits instantly ✨</p>
 
-  <input type="file" id="imageInput">
-  
-  <select id="style">
-    <option>Normal</option>
-    <option>Cinematic</option>
-    <option>Sharp Pro</option>
-    <option>Warm</option>
-  </select>
-
-  <br>
-  <button onclick="upload()">Enhance Image</button>
-
-  <p id="loader">Enhancing your image...</p>
-
-  <div class="images">
-    <div>
-      <h3>Original</h3>
-      <img id="inputPreview">
-    </div>
-
-    <div>
-      <h3>Enhanced</h3>
-      <img id="output">
-    </div>
-  </div>
-
-  <br>
-  <a id="downloadBtn" style="display:none;" download="enhanced.jpg">
-    <button>Download</button>
-  </a>
+<div class="upload-box" onclick="document.getElementById('file').click()">
+  Click to upload image
 </div>
 
+<input type="file" id="file" hidden>
+
+<br>
+
+<select id="style">
+  <option>Normal</option>
+  <option>Cinematic</option>
+  <option>Sharp Pro</option>
+  <option>Warm</option>
+</select>
+
+<br><br>
+
+<button onclick="upload()">Make it Pro</button>
+
+<p id="loader">Enhancing your image...</p>
+
+<div class="images">
+  <div class="card">
+    <h3>Original</h3>
+    <img id="inputPreview">
+  </div>
+
+  <div class="card">
+    <h3>Enhanced</h3>
+    <img id="output">
+  </div>
+</div>
+
+<br>
+<a id="downloadBtn" style="display:none;" download="enhanced.jpg">
+  <button>Download</button>
+</a>
+
 <script>
-const backendURL = "https://image-enhancer-agml.onrender.com/enhance"; // 🔥 CHANGE THIS
+const backendURL = "https://image-enhancer-agml.onrender.com/enhance";
 
 let outputBlob = null;
 
-// Preview input
-document.getElementById("imageInput").addEventListener("change", function() {
+document.getElementById("file").addEventListener("change", function() {
   const file = this.files[0];
   if (file) {
     document.getElementById("inputPreview").src = URL.createObjectURL(file);
@@ -112,13 +142,10 @@ document.getElementById("imageInput").addEventListener("change", function() {
 });
 
 function upload() {
-  const file = document.getElementById("imageInput").files[0];
+  const file = document.getElementById("file").files[0];
   const style = document.getElementById("style").value;
 
-  if (!file) {
-    alert("Upload image first!");
-    return;
-  }
+  if (!file) return alert("Upload image first!");
 
   document.getElementById("loader").style.display = "block";
 
@@ -132,31 +159,26 @@ function upload() {
   })
   .then(async res => {
     const type = res.headers.get("content-type");
-    console.log("TYPE:", type);
 
-    if (!type || !type.includes("image")) {
+    if (!type.includes("image")) {
       const text = await res.text();
       alert("Backend error:\n" + text);
-      throw new Error("Not an image response");
+      throw new Error("Not image");
     }
 
     return res.blob();
   })
   .then(blob => {
-    console.log("SIZE:", blob.size);
-
     outputBlob = blob;
-
     const url = URL.createObjectURL(blob);
-    document.getElementById("output").src = url;
 
-    const downloadBtn = document.getElementById("downloadBtn");
-    downloadBtn.href = url;
-    downloadBtn.style.display = "inline-block";
+    document.getElementById("output").src = url;
+    document.getElementById("downloadBtn").href = url;
+    document.getElementById("downloadBtn").style.display = "inline-block";
   })
   .catch(err => {
     console.error(err);
-    alert("Something went wrong!");
+    alert("Error processing image");
   })
   .finally(() => {
     document.getElementById("loader").style.display = "none";
