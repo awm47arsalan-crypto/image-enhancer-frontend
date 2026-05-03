@@ -2,120 +2,60 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI Image Enhancer</title>
 
 <style>
 body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #0f172a, #1e293b);
+  font-family: Arial, sans-serif;
+  background: #0f172a;
   color: white;
   text-align: center;
+  padding: 30px;
 }
 
 .container {
-  max-width: 1000px;
+  max-width: 900px;
   margin: auto;
-  padding: 30px;
 }
 
 h1 {
-  font-size: 2.8rem;
-  margin-bottom: 5px;
-  animation: glow 2s ease-in-out infinite alternate;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
 }
 
-@keyframes glow {
-  from { text-shadow: 0 0 10px #6366f1; }
-  to { text-shadow: 0 0 25px #8b5cf6; }
-}
-
-.tagline {
-  font-size: 1.2rem;
-  color: #cbd5f5;
-  opacity: 0;
-  animation: fadeIn 1.5s ease forwards;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(15px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.upload-box {
-  border: 2px dashed #6366f1;
-  padding: 30px;
-  border-radius: 15px;
-  cursor: pointer;
-  margin: 25px 0;
-  transition: 0.3s;
-}
-
-.upload-box:hover {
-  background: rgba(99,102,241,0.1);
-  transform: scale(1.02);
-}
-
-input {
-  display: none;
-}
-
-.controls {
-  margin: 10px 0;
-}
-
-select, button {
-  padding: 10px 15px;
+input, select, button {
+  margin: 10px;
+  padding: 10px;
   border-radius: 8px;
   border: none;
-  margin: 5px;
 }
 
 button {
-  background: #6366f1;
+  background: #22c55e;
   color: white;
   cursor: pointer;
-  transition: 0.3s;
 }
 
 button:hover {
-  transform: scale(1.05);
+  background: #16a34a;
 }
 
-.preview {
+.images {
   display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  margin-top: 30px;
-  flex-wrap: wrap;
-}
-
-.card {
-  background: #1e293b;
-  padding: 15px;
-  border-radius: 12px;
-  flex: 1;
-  transition: 0.3s;
-}
-
-.card:hover {
-  transform: translateY(-5px);
+  justify-content: space-around;
+  margin-top: 20px;
 }
 
 img {
-  max-width: 100%;
+  max-width: 40%;
   border-radius: 10px;
+  border: 2px solid #333;
 }
 
-.loader {
+#loader {
   display: none;
-  margin-top: 20px;
-}
-
-.download-btn {
-  display: none;
-  margin-top: 20px;
-  background: #22c55e;
+  margin-top: 15px;
 }
 </style>
 </head>
@@ -123,16 +63,11 @@ img {
 <body>
 
 <div class="container">
+  <h1>AI Image Enhancer</h1>
+  <p>Make your photos look professional instantly ✨</p>
 
-<h1>🔥 AI Image Enhancer</h1>
-<p class="tagline">Transform your photos into stunning, professional edits instantly ✨</p>
-
-<label class="upload-box">
-  Click to upload image
   <input type="file" id="imageInput">
-</label>
-
-<div class="controls">
+  
   <select id="style">
     <option>Normal</option>
     <option>Cinematic</option>
@@ -140,36 +75,43 @@ img {
     <option>Warm</option>
   </select>
 
-  <button onclick="upload()">Make it Pro</button>
-</div>
+  <br>
+  <button onclick="upload()">Enhance Image</button>
 
-<div class="loader" id="loader">⏳ Enhancing your image...</div>
+  <p id="loader">Enhancing your image...</p>
 
-<div class="preview">
-  <div class="card">
-    <h3>Original</h3>
-    <img id="inputPreview">
+  <div class="images">
+    <div>
+      <h3>Original</h3>
+      <img id="inputPreview">
+    </div>
+
+    <div>
+      <h3>Enhanced</h3>
+      <img id="output">
+    </div>
   </div>
 
-  <div class="card">
-    <h3>Enhanced</h3>
-    <img id="output">
-  </div>
-</div>
-
-<button class="download-btn" id="downloadBtn">⬇ Download Image</button>
-
+  <br>
+  <a id="downloadBtn" style="display:none;" download="enhanced.jpg">
+    <button>Download</button>
+  </a>
 </div>
 
 <script>
-let outputBlob;
+const backendURL = "https://your-render-url.onrender.com/enhance"; // 🔥 CHANGE THIS
 
-document.getElementById("imageInput").onchange = function(e) {
-  const file = e.target.files[0];
-  document.getElementById("inputPreview").src = URL.createObjectURL(file);
-};
+let outputBlob = null;
 
-async function upload() {
+// Preview input
+document.getElementById("imageInput").addEventListener("change", function() {
+  const file = this.files[0];
+  if (file) {
+    document.getElementById("inputPreview").src = URL.createObjectURL(file);
+  }
+});
+
+function upload() {
   const file = document.getElementById("imageInput").files[0];
   const style = document.getElementById("style").value;
 
@@ -184,25 +126,42 @@ async function upload() {
   formData.append("image", file);
   formData.append("style", style);
 
-  const response = await fetch("https://image-enhancer-agml.onrender.com/enhance", {
+  fetch(backendURL, {
     method: "POST",
     body: formData
+  })
+  .then(async res => {
+    const type = res.headers.get("content-type");
+    console.log("TYPE:", type);
+
+    if (!type || !type.includes("image")) {
+      const text = await res.text();
+      alert("Backend error:\n" + text);
+      throw new Error("Not an image response");
+    }
+
+    return res.blob();
+  })
+  .then(blob => {
+    console.log("SIZE:", blob.size);
+
+    outputBlob = blob;
+
+    const url = URL.createObjectURL(blob);
+    document.getElementById("output").src = url;
+
+    const downloadBtn = document.getElementById("downloadBtn");
+    downloadBtn.href = url;
+    downloadBtn.style.display = "inline-block";
+  })
+  .catch(err => {
+    console.error(err);
+    alert("Something went wrong!");
+  })
+  .finally(() => {
+    document.getElementById("loader").style.display = "none";
   });
-
-  const blob = await response.blob();
-  outputBlob = blob;
-
-  document.getElementById("output").src = URL.createObjectURL(blob);
-  document.getElementById("loader").style.display = "none";
-  document.getElementById("downloadBtn").style.display = "inline-block";
 }
-
-document.getElementById("downloadBtn").onclick = function() {
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(outputBlob);
-  a.download = "enhanced.jpg";
-  a.click();
-};
 </script>
 
 </body>
