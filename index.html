@@ -176,7 +176,8 @@ function upload() {
   let formData = new FormData();
   formData.append("image", file);
   formData.append("style", style);
-  formData.append("lut", document.getElementById("lut").value);
+  const lutElement = document.getElementById("lut");
+formData.append("lut", lutElement ? lutElement.value : "None");
 
   fetch(backendURL, {
     method: "POST",
