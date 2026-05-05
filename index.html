@@ -94,7 +94,7 @@ img{
 Click to upload image
 </div>
 
-<input type="file" id="file" accept="image/*" hidden>
+<input type="file" id="file" accept="image/*" hidden onchange="previewImage(event)">
 
 <br>
 
@@ -140,6 +140,14 @@ Click to upload image
 </div>
 
 <script>
+  function previewImage(event){
+  const file = event.target.files[0];
+
+  if(file){
+    const imageURL = URL.createObjectURL(file);
+    document.getElementById("original").src = imageURL;
+  }
+}
 
 async function uploadImage(){
 
@@ -152,7 +160,7 @@ async function uploadImage(){
   }
 
   // show original
-  document.getElementById("original").src = URL.createObjectURL(file);
+ 
 
   // show loader
   document.getElementById("loader").style.display = "block";
