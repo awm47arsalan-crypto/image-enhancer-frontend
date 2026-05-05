@@ -181,6 +181,11 @@ async function uploadImage(){
 
     const blob = await response.blob();
     const imageURL = URL.createObjectURL(blob);
+    const enhancedImg = document.getElementById("enhanced");
+const downloadBtn = document.getElementById("downloadBtn");
+
+enhancedImg.src = imageURL;   // 👈 image show hogi
+downloadBtn.href = imageURL;  // 👈 download link set hoga
 
     document.getElementById("downloadBtn").href = imageURL;
 
