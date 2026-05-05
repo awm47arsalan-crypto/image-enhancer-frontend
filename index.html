@@ -130,6 +130,10 @@ Click to upload image
 <div>
 <h3>Enhanced</h3>
 <img id="enhanced">
+  <br>
+<a id="downloadBtn" download="enhanced.jpg">
+  <button>Download Image</button>
+</a>
 </div>
 </div>
 
@@ -178,7 +182,7 @@ async function uploadImage(){
     const blob = await response.blob();
     const imageURL = URL.createObjectURL(blob);
 
-    document.getElementById("enhanced").src = imageURL;
+    document.getElementById("downloadBtn").href = imageURL;
 
   }catch(error){
     alert("Error connecting backend");
