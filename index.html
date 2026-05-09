@@ -1,234 +1,405 @@
+# `index.html` (Complete Replacement)
+
+> ⚠️ **Important:** Replace your entire existing `index.html` with the code below.
+>
+> After replacing it, update the `API_URL` variable with your Render backend URL.
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GB675LM4K0"></script>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Image Enhancer</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🔥 AI Image Enhancer</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-<style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Poppins',sans-serif;
-}
-
-body{
-  background: linear-gradient(135deg,#0f172a,#1e293b);
-  color:white;
-  text-align:center;
-  padding:30px;
-}
-
-h1{
-  font-size:40px;
-  margin-bottom:10px;
-}
-
-p{
-  color:#cbd5f5;
-  margin-bottom:25px;
-}
-
-.container{
-  max-width:900px;
-  margin:auto;
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(15px);
-  border-radius:20px;
-  padding:30px;
-}
-
-.upload-box{
-  border:2px dashed #38bdf8;
-  padding:20px;
-  border-radius:12px;
-  cursor:pointer;
-  margin-bottom:20px;
-}
-
-select,button{
-  padding:10px;
-  margin:10px;
-  border-radius:8px;
-  border:none;
-}
-
-button{
-  background:#4f46e5;
-  color:white;
-  cursor:pointer;
-}
-
-.images{
-  display:flex;
-  gap:20px;
-  margin-top:30px;
-  justify-content:center;
-  flex-wrap:wrap;
-}
-
-img{
-  width:300px;
-  border-radius:10px;
-}
-
-.loader{
-  display:none;
-  margin-top:20px;
-}
-</style>
-</head>
-
-<body>
-
-<h1>🔥 AI Image Enhancer</h1>
-<p>Make your images look professional ✨</p>
-
-<div class="container">
-
-<div class="upload-box" onclick="document.getElementById('file').click()">
-Click to upload image
-</div>
-
-<input type="file" id="file" accept="image/*" hidden onchange="previewImage(event)">
-
-<br>
-
-<select id="style">
-<option>Normal</option>
-<option>Cinematic</option>
-<option>Warm</option>
-<option>Cool</option>
-<option>Sharp Pro</option>
-</select>
-
-<select id="lut">
-<option>None</option>
-<option>Teal & Orange</option>
-<option>Moody</option>
-<option>Vintage</option>
-<option>Cool Film</option>
-<option>Soft Skin</option>
-</select>
-
-<br>
-
-<button onclick="uploadImage()">Enhance Image</button>
-
-<div class="loader" id="loader">Enhancing...</div>
-
-<div class="images">
-<div>
-<h3>Original</h3>
-<img id="original">
-</div>
-
-<div>
-  <h3>Enhanced</h3>
-  <img id="enhanced">
-
-  <br>
-  <button
-    id="downloadBtn"
-    onclick="downloadEnhancedImage()"
-    style="display:none;"
-  >
-    Download Image
-  </button>
-</div>
-</div>
-
-</div>
-
-<script>
-  function previewImage(event){
-  const file = event.target.files[0];
-
-  if(file){
-    const imageURL = URL.createObjectURL(file);
-    document.getElementById("original").src = imageURL;
-  }
-}
-
-async function uploadImage(){
-
-  const fileInput = document.getElementById("file");
-  const file = fileInput.files[0];
-
-  if(!file){
-    alert("Upload image first");
-    return;
-  }
-  function downloadEnhancedImage() {
-  const enhancedImg = document.getElementById("enhanced");
-  const imageUrl = enhancedImg.src;
-
-  if (!imageUrl) {
-    alert("No enhanced image available.");
-    return;
-  }
-
-  const link = document.createElement("a");
-  link.href = imageUrl;
-  link.download = "enhanced-image.jpg";
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-}
-
-  // show original
- 
-
-  // show loader
-  document.getElementById("loader").style.display = "block";
-
-  const formData = new FormData();
-  formData.append("image", file);
-
-  // SAFE values (no null error)
-  const style = document.getElementById("style")?.value || "Normal";
-  const lut = document.getElementById("lut")?.value || "None";
-
-  formData.append("style", style);
-  formData.append("lut", lut);
-
-  try{
-    const response = await fetch("https://image-enhancer-agml.onrender.com/enhance", {
-      method: "POST",
-      body: formData
-    });
-
-    if(!response.ok){
-      alert("Backend error");
-      document.getElementById("loader").style.display = "none";
-      return;
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
     }
 
-    const blob = await response.blob();
-const imageURL = URL.createObjectURL(blob);
+    body {
+      background:
+        radial-gradient(circle at 20% 20%, rgba(34, 197, 94, 0.15), transparent 35%),
+        radial-gradient(circle at 80% 30%, rgba(59, 130, 246, 0.12), transparent 35%),
+        radial-gradient(circle at 50% 80%, rgba(168, 85, 247, 0.10), transparent 40%),
+        linear-gradient(135deg, #050816, #08111f, #0a1327);
+      color: white;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
 
-const enhancedImg = document.getElementById("enhanced");
+    .container {
+      max-width: 1200px;
+      margin: auto;
+    }
 
-// Enhanced image show karo
-enhancedImg.src = imageURL;
+    h1 {
+      text-align: center;
+      font-size: clamp(2.6rem, 6vw, 4.6rem);
+      font-weight: 800;
+      margin-bottom: 14px;
+      background: linear-gradient(90deg, #22c55e, #4ade80, #60a5fa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 30px rgba(34, 197, 94, 0.25);
+    }
 
-// Download button show karo
-document.getElementById("downloadBtn").style.display = "inline-block";
+    .subtitle {
+      text-align: center;
+      color: #cbd5e1;
+      font-size: 1.15rem;
+      margin-bottom: 38px;
+    }
 
-    
+    .upload-box {
+      border: 2px dashed rgba(74, 222, 128, 0.6);
+      border-radius: 24px;
+      padding: 36px;
+      text-align: center;
+      cursor: pointer;
+      background: rgba(15, 23, 42, 0.55);
+      backdrop-filter: blur(16px);
+      transition: 0.3s ease;
+      max-width: 520px;
+      margin: 0 auto 24px;
+    }
 
-  }catch(error){
-    alert("Error connecting backend");
-  }
+    .upload-box:hover {
+      transform: translateY(-2px);
+      border-color: #4ade80;
+      box-shadow: 0 0 25px rgba(74, 222, 128, 0.15);
+    }
 
-  document.getElementById("loader").style.display = "none";
-}
+    .upload-box p {
+      color: #dbeafe;
+      font-size: 1.05rem;
+    }
 
-</script>
+    input[type="file"] {
+      display: none;
+    }
 
+    .controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    select {
+      padding: 12px 18px;
+      border-radius: 12px;
+      border: none;
+      outline: none;
+      background: #ffffff;
+      font-size: 1rem;
+      font-weight: 500;
+    }
+
+    button {
+      border: none;
+      border-radius: 14px;
+      padding: 13px 28px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .enhance-btn {
+      background: linear-gradient(90deg, #22c55e, #4ade80);
+      color: white;
+      box-shadow: 0 0 20px rgba(34, 197, 94, 0.35);
+    }
+
+    .enhance-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 35px rgba(34, 197, 94, 0.55);
+    }
+
+    .download-btn {
+      display: none;
+      margin: 18px auto 0;
+      background: linear-gradient(90deg, #3b82f6, #60a5fa);
+      color: white;
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.35);
+    }
+
+    .download-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .status {
+      text-align: center;
+      color: #cbd5e1;
+      margin: 16px 0 28px;
+      min-height: 24px;
+      font-size: 1rem;
+    }
+
+    .loader {
+      display: none;
+      width: 42px;
+      height: 42px;
+      border: 4px solid rgba(255,255,255,0.15);
+      border-top: 4px solid #4ade80;
+      border-radius: 50%;
+      margin: 0 auto 18px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .images {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 28px;
+      margin-top: 10px;
+    }
+
+    .card {
+      background: rgba(15, 23, 42, 0.72);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 28px;
+      padding: 24px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+    }
+
+    .card h3 {
+      text-align: center;
+      margin-bottom: 18px;
+      font-size: 1.7rem;
+      font-weight: 700;
+    }
+
+    .preview {
+      width: 100%;
+      max-height: 520px;
+      object-fit: contain;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.03);
+      min-height: 260px;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      color: #94a3b8;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 24px 14px;
+      }
+
+      .upload-box {
+        padding: 26px 18px;
+      }
+
+      .card {
+        padding: 18px;
+      }
+
+      .card h3 {
+        font-size: 1.4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔥 AI Image Enhancer</h1>
+    <p class="subtitle">Transform your photos into stunning, professional edits instantly ✨</p>
+
+    <div class="upload-box" onclick="document.getElementById('file').click()">
+      <p>Click to upload image</p>
+    </div>
+
+    <input
+      type="file"
+      id="file"
+      accept="image/*"
+      onchange="previewImage(event)"
+    />
+
+    <div class="controls">
+      <select id="mode">
+        <option value="normal">Normal</option>
+        <option value="cinematic">Cinematic</option>
+        <option value="portrait">Portrait</option>
+        <option value="vivid">Vivid</option>
+      </select>
+
+      <button class="enhance-btn" onclick="uploadImage()">Make it Pro</button>
+    </div>
+
+    <div class="loader" id="loader"></div>
+    <div class="status" id="status"></div>
+
+    <div class="images">
+      <div class="card">
+        <h3>Original</h3>
+        <img id="original" class="preview" alt="Original image preview">
+      </div>
+
+      <div class="card">
+        <h3>Enhanced</h3>
+        <img id="enhanced" class="preview" alt="Enhanced image preview">
+
+        <button
+          id="downloadBtn"
+          class="download-btn"
+          onclick="downloadEnhancedImage()"
+        >
+          Download Image
+        </button>
+      </div>
+    </div>
+
+    <p class="footer">Created by Arsalan Ansari 🚀</p>
+  </div>
+
+  <script>
+    // 🔥 IMPORTANT: Replace this with your Render backend URL
+    const API_URL = "https://image-enhancer-agml.onrender.com/enhance";
+
+    let enhancedImageURL = "";
+
+    function previewImage(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const imageURL = URL.createObjectURL(file);
+      document.getElementById("original").src = imageURL;
+
+      // Reset previous result
+      document.getElementById("enhanced").src = "";
+      document.getElementById("downloadBtn").style.display = "none";
+      document.getElementById("status").textContent = "";
+      enhancedImageURL = "";
+    }
+
+    async function uploadImage() {
+      const fileInput = document.getElementById("file");
+      const file = fileInput.files[0];
+
+      if (!file) {
+        alert("Please upload an image first.");
+        return;
+      }
+
+      const mode = document.getElementById("mode").value;
+      const formData = new FormData();
+      formData.append("image", file);
+      formData.append("mode", mode);
+
+      const loader = document.getElementById("loader");
+      const status = document.getElementById("status");
+      const downloadBtn = document.getElementById("downloadBtn");
+
+      loader.style.display = "block";
+      status.textContent = "Enhancing your image...";
+      downloadBtn.style.display = "none";
+
+      try {
+        const response = await fetch(API_URL, {
+          method: "POST",
+          body: formData,
+        });
+
+        if (!response.ok) {
+          const text = await response.text();
+          throw new Error(text || "Backend error");
+        }
+
+        const blob = await response.blob();
+        const imageURL = URL.createObjectURL(blob);
+
+        enhancedImageURL = imageURL;
+        document.getElementById("enhanced").src = imageURL;
+
+        downloadBtn.style.display = "inline-block";
+        status.textContent = "Image enhanced successfully!";
+      } catch (error) {
+        console.error(error);
+        alert("Backend error: " + error.message);
+        status.textContent = "Failed to enhance image.";
+      } finally {
+        loader.style.display = "none";
+      }
+    }
+
+    function downloadEnhancedImage() {
+      if (!enhancedImageURL) {
+        alert("No enhanced image available.");
+        return;
+      }
+
+      const link = document.createElement("a");
+      link.href = enhancedImageURL;
+      link.download = "enhanced-image.jpg";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  </script>
 </body>
 </html>
+```
+
+---
+
+## 🔥 IMPORTANT FINAL STEP
+
+Replace this line:
+
+```javascript
+const API_URL = "https://YOUR-RENDER-BACKEND.onrender.com/enhance";
+```
+
+with your real backend URL, for example:
+
+```javascript
+const API_URL = "https://my-image-enhancer.onrender.com/enhance";
+```
+
+---
+
+## 🚀 Deploy Steps
+
+1. Replace your current `index.html` with this code.
+2. Update `API_URL`.
+3. Save file.
+4. Commit and push to GitHub.
+5. Cloudflare Pages will auto-deploy.
+6. Hard refresh site (`Ctrl + Shift + R`).
+
+---
+
+## ✅ Features Included
+
+* Upload preview instantly
+* Professional UI with animations
+* Loading spinner
+* Enhanced image preview
+* Mobile-friendly download button
+* Responsive design
+* Status messages
+* Premium glassmorphism cards
+
+---
+
+Agar backend URL update kar dega, toh system butter ki tarah chalega 😎🔥
