@@ -145,6 +145,7 @@ Click to upload image
 </div>
 
 <script>
+  let enhancedImageURL = "";
   function previewImage(event){
   const file = event.target.files[0];
 
@@ -164,13 +165,18 @@ async function uploadImage(){
     return;
   }
   function downloadEnhancedImage() {
-  const enhancedImg = document.getElementById("enhanced");
-  const imageUrl = enhancedImg.src;
-
-  if (!imageUrl) {
+  if (!enhancedImageURL) {
     alert("No enhanced image available.");
     return;
   }
+
+  const link = document.createElement("a");
+  link.href = enhancedImageURL;
+  link.download = "enhanced-image.jpg";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
 
   const link = document.createElement("a");
   link.href = imageUrl;
@@ -210,6 +216,7 @@ async function uploadImage(){
 
     const blob = await response.blob();
 const imageURL = URL.createObjectURL(blob);
+    enhancedImageURL = imageURL;
 
 const enhancedImg = document.getElementById("enhanced");
 
