@@ -1,10 +1,4 @@
-# `index.html` (Complete Replacement)
 
-> ⚠️ **Important:** Replace your entire existing `index.html` with the code below.
->
-> After replacing it, update the `API_URL` variable with your Render backend URL.
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,13 +20,13 @@
     }
 
     body {
-      background:
-        radial-gradient(circle at 20% 20%, rgba(34, 197, 94, 0.15), transparent 35%),
-        radial-gradient(circle at 80% 30%, rgba(59, 130, 246, 0.12), transparent 35%),
-        radial-gradient(circle at 50% 80%, rgba(168, 85, 247, 0.10), transparent 40%),
-        linear-gradient(135deg, #050816, #08111f, #0a1327);
-      color: white;
       min-height: 100vh;
+      color: #fff;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(34,197,94,0.18), transparent 35%),
+        radial-gradient(circle at 80% 30%, rgba(59,130,246,0.15), transparent 35%),
+        radial-gradient(circle at 50% 80%, rgba(168,85,247,0.12), transparent 40%),
+        linear-gradient(135deg, #020617, #071127, #0a1730);
       padding: 40px 20px;
     }
 
@@ -43,9 +37,9 @@
 
     h1 {
       text-align: center;
-      font-size: clamp(2.6rem, 6vw, 4.6rem);
+      font-size: clamp(2.5rem, 6vw, 4.8rem);
       font-weight: 800;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       background: linear-gradient(90deg, #22c55e, #4ade80, #60a5fa);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -55,26 +49,26 @@
     .subtitle {
       text-align: center;
       color: #cbd5e1;
-      font-size: 1.15rem;
-      margin-bottom: 38px;
+      font-size: 1.1rem;
+      margin-bottom: 35px;
     }
 
     .upload-box {
-      border: 2px dashed rgba(74, 222, 128, 0.6);
-      border-radius: 24px;
-      padding: 36px;
-      text-align: center;
-      cursor: pointer;
-      background: rgba(15, 23, 42, 0.55);
-      backdrop-filter: blur(16px);
-      transition: 0.3s ease;
       max-width: 520px;
       margin: 0 auto 24px;
+      padding: 34px;
+      text-align: center;
+      border: 2px dashed rgba(74, 222, 128, 0.6);
+      border-radius: 24px;
+      background: rgba(15, 23, 42, 0.55);
+      backdrop-filter: blur(16px);
+      cursor: pointer;
+      transition: 0.3s;
     }
 
     .upload-box:hover {
-      transform: translateY(-2px);
       border-color: #4ade80;
+      transform: translateY(-2px);
       box-shadow: 0 0 25px rgba(74, 222, 128, 0.15);
     }
 
@@ -90,20 +84,18 @@
     .controls {
       display: flex;
       justify-content: center;
-      align-items: center;
       gap: 12px;
       flex-wrap: wrap;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     select {
-      padding: 12px 18px;
+      padding: 12px 16px;
       border-radius: 12px;
       border: none;
       outline: none;
-      background: #ffffff;
       font-size: 1rem;
-      font-weight: 500;
+      min-width: 220px;
     }
 
     button {
@@ -113,18 +105,18 @@
       font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
-      transition: 0.3s ease;
+      transition: 0.3s;
     }
 
     .enhance-btn {
       background: linear-gradient(90deg, #22c55e, #4ade80);
-      color: white;
+      color: #fff;
       box-shadow: 0 0 20px rgba(34, 197, 94, 0.35);
     }
 
-    .enhance-btn:hover {
+    .enhance-btn:hover,
+    .download-btn:hover {
       transform: scale(1.05);
-      box-shadow: 0 0 35px rgba(34, 197, 94, 0.55);
     }
 
     .download-btn {
@@ -135,26 +127,14 @@
       box-shadow: 0 0 20px rgba(59, 130, 246, 0.35);
     }
 
-    .download-btn:hover {
-      transform: scale(1.05);
-    }
-
-    .status {
-      text-align: center;
-      color: #cbd5e1;
-      margin: 16px 0 28px;
-      min-height: 24px;
-      font-size: 1rem;
-    }
-
     .loader {
       display: none;
       width: 42px;
       height: 42px;
-      border: 4px solid rgba(255,255,255,0.15);
+      border: 4px solid rgba(255,255,255,0.12);
       border-top: 4px solid #4ade80;
       border-radius: 50%;
-      margin: 0 auto 18px;
+      margin: 0 auto 15px;
       animation: spin 1s linear infinite;
     }
 
@@ -162,43 +142,48 @@
       to { transform: rotate(360deg); }
     }
 
+    .status {
+      text-align: center;
+      color: #cbd5e1;
+      margin-bottom: 25px;
+      min-height: 24px;
+    }
+
     .images {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: 28px;
-      margin-top: 10px;
     }
 
     .card {
       background: rgba(15, 23, 42, 0.72);
       backdrop-filter: blur(18px);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255,255,255,0.06);
       border-radius: 28px;
       padding: 24px;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.35);
     }
 
     .card h3 {
       text-align: center;
-      margin-bottom: 18px;
-      font-size: 1.7rem;
+      margin-bottom: 16px;
+      font-size: 1.6rem;
       font-weight: 700;
     }
 
     .preview {
-      width: 100%;
+      width: 100%; 
       max-height: 520px;
+      min-height: 260px;
       object-fit: contain;
       border-radius: 18px;
       background: rgba(255,255,255,0.03);
-      min-height: 260px;
     }
 
     .footer {
       text-align: center;
       margin-top: 40px;
       color: #94a3b8;
-      font-size: 0.95rem;
     }
 
     @media (max-width: 640px) {
@@ -215,7 +200,11 @@
       }
 
       .card h3 {
-        font-size: 1.4rem;
+        font-size: 1.35rem;
+      }
+
+      select {
+        min-width: 100%; 
       }
     }
   </style>
@@ -239,12 +228,20 @@
     <div class="controls">
       <select id="mode">
         <option value="normal">Normal</option>
-        <option value="cinematic">Cinematic</option>
-        <option value="portrait">Portrait</option>
-        <option value="vivid">Vivid</option>
+        <option value="cinematic">Cinematic LUT</option>
+        <option value="portrait">Portrait LUT</option>
+        <option value="vivid">Vivid LUT</option>
+        <option value="warm">Warm Tone LUT</option>
+        <option value="cool">Cool Tone LUT</option>
+        <option value="moody">Moody LUT</option>
+        <option value="golden">Golden Hour LUT</option>
+        <option value="teal_orange">Teal & Orange LUT</option>
+        <option value="black_white">Black & White</option>
       </select>
 
-      <button class="enhance-btn" onclick="uploadImage()">Make it Pro</button>
+      <button class="enhance-btn" onclick="uploadImage()">
+        Make it Pro
+      </button>
     </div>
 
     <div class="loader" id="loader"></div>
@@ -253,12 +250,12 @@
     <div class="images">
       <div class="card">
         <h3>Original</h3>
-        <img id="original" class="preview" alt="Original image preview">
+        <img id="original" class="preview" alt="Original Preview">
       </div>
 
       <div class="card">
         <h3>Enhanced</h3>
-        <img id="enhanced" class="preview" alt="Enhanced image preview">
+        <img id="enhanced" class="preview" alt="Enhanced Preview">
 
         <button
           id="downloadBtn"
@@ -274,8 +271,7 @@
   </div>
 
   <script>
-    // 🔥 IMPORTANT: Replace this with your Render backend URL
-    const API_URL = "https://image-enhancer-agml.onrender.com/enhance";
+    const API_URL = "https://YOUR-RENDER-BACKEND.onrender.com/enhance";
 
     let enhancedImageURL = "";
 
@@ -286,7 +282,6 @@
       const imageURL = URL.createObjectURL(file);
       document.getElementById("original").src = imageURL;
 
-      // Reset previous result
       document.getElementById("enhanced").src = "";
       document.getElementById("downloadBtn").style.display = "none";
       document.getElementById("status").textContent = "";
@@ -318,12 +313,12 @@
       try {
         const response = await fetch(API_URL, {
           method: "POST",
-          body: formData,
+          body: formData
         });
 
         if (!response.ok) {
-          const text = await response.text();
-          throw new Error(text || "Backend error");
+          const errorText = await response.text();
+          throw new Error(errorText || "Backend error");
         }
 
         const blob = await response.blob();
@@ -359,48 +354,3 @@
   </script>
 </body>
 </html>
-```
-
----
-
-## 🔥 IMPORTANT FINAL STEP
-
-Replace this line:
-
-```javascript
-const API_URL = "https://YOUR-RENDER-BACKEND.onrender.com/enhance";
-```
-
-with your real backend URL, for example:
-
-```javascript
-const API_URL = "https://my-image-enhancer.onrender.com/enhance";
-```
-
----
-
-## 🚀 Deploy Steps
-
-1. Replace your current `index.html` with this code.
-2. Update `API_URL`.
-3. Save file.
-4. Commit and push to GitHub.
-5. Cloudflare Pages will auto-deploy.
-6. Hard refresh site (`Ctrl + Shift + R`).
-
----
-
-## ✅ Features Included
-
-* Upload preview instantly
-* Professional UI with animations
-* Loading spinner
-* Enhanced image preview
-* Mobile-friendly download button
-* Responsive design
-* Status messages
-* Premium glassmorphism cards
-
----
-
-Agar backend URL update kar dega, toh system butter ki tarah chalega 😎🔥
