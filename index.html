@@ -128,12 +128,17 @@ Click to upload image
 </div>
 
 <div>
-<h3>Enhanced</h3>
-<img id="enhanced">
+  <h3>Enhanced</h3>
+  <img id="enhanced">
+
   <br>
-<a id="downloadBtn" download="enhanced.jpg">
-  <button>Download Image</button>
-</a>
+  <button
+    id="downloadBtn"
+    onclick="downloadEnhancedImage()"
+    style="display:none;"
+  >
+    Download Image
+  </button>
 </div>
 </div>
 
@@ -158,6 +163,22 @@ async function uploadImage(){
     alert("Upload image first");
     return;
   }
+  function downloadEnhancedImage() {
+  const enhancedImg = document.getElementById("enhanced");
+  const imageUrl = enhancedImg.src;
+
+  if (!imageUrl) {
+    alert("No enhanced image available.");
+    return;
+  }
+
+  const link = document.createElement("a");
+  link.href = imageUrl;
+  link.download = "enhanced-image.jpg";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
 
   // show original
  
@@ -188,14 +209,17 @@ async function uploadImage(){
     }
 
     const blob = await response.blob();
-    const imageURL = URL.createObjectURL(blob);
-    const enhancedImg = document.getElementById("enhanced");
-const downloadBtn = document.getElementById("downloadBtn");
+const imageURL = URL.createObjectURL(blob);
 
-enhancedImg.src = imageURL;   // 👈 image show hogi
-downloadBtn.href = imageURL;  // 👈 download link set hoga
+const enhancedImg = document.getElementById("enhanced");
 
-    document.getElementById("downloadBtn").href = imageURL;
+// Enhanced image show karo
+enhancedImg.src = imageURL;
+
+// Download button show karo
+document.getElementById("downloadBtn").style.display = "inline-block";
+
+    
 
   }catch(error){
     alert("Error connecting backend");
