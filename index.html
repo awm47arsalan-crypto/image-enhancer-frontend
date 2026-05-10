@@ -338,19 +338,26 @@
       }
     }
 
-    function downloadEnhancedImage() {
-      if (!enhancedImageURL) {
-        alert("No enhanced image available.");
-        return;
-      }
+function downloadEnhancedImage() {
+  if (!enhancedImageURL) {
+    alert("No enhanced image available.");
+    return;
+  }
 
-      const link = document.createElement("a");
-      link.href = enhancedImageURL;
-      link.download = "enhanced-image.jpg";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
+  // Mobile browsers (Instagram, Facebook, etc.)
+  if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+    window.open(enhancedImageURL, "_blank");
+    return;
+  }
+
+  // Desktop browsers
+  const link = document.createElement("a");
+  link.href = enhancedImageURL;
+  link.download = "enhanced-image.jpg";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
   </script>
 </body>
 </html>
